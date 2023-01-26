@@ -5,4 +5,4 @@ The goal of this challenge was to create a weather dashboard that contained toda
 ## Link
 To check out the code right click anywhere on the site a inspect. You can find the link to the site here: https://jordymarquez.github.io/Weather-Dashboard/
 ## Preview
-<img src= "Preview 1.PNG">
+<img src= "Preview 1.png">
