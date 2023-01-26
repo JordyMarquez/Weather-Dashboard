@@ -8,17 +8,18 @@ userInput.on('click', handleSubmit);
 function handleSubmit(event) {
 
     event.preventDefault();
+    
+    $("#wIcon").removeClass("hide")
+    $("#dIcon").removeClass("hide")
 
-    console.log("message") // button is listening
     var cityName = $("#userInput").val()
 
     //use API URL with imperial units
-    var cityURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey
+    var cityURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + apiKey
 
     //creates fetch for URL above using city name user provided
     fetch(cityURL)
         .then(function (response) {
-            console.log("daily response", response)
             return response.json();
         })
         .then((data) => {
@@ -39,13 +40,14 @@ function handleSubmit(event) {
 
                     //tests data using console log to check for current temp, humidity and wind speed
                     var currentTemp = data.list[0].main.temp;
-                    console.log(currentTemp);
+                    
                     var currentHumidity = data.list[0].main.humidity;
-                    console.log(currentHumidity);
+                    
                     var currentWindspeed = data.list[0].wind.speed;
-                    console.log(currentWindspeed)
-
-                    console.log(cityURL)
+                    
+                    var currentIcon = data.list[0].weather[0].icon
+                    
+                   
 
                     //creates a function to display current weather for a single day
                     function displayWeather() {
@@ -55,6 +57,12 @@ function handleSubmit(event) {
                         cityNameheader = $("<h3>")
                         sectionCurrentweather.append(cityNameheader)
                         cityNameheader.text(data.city.name)
+
+                        //renders weather icon
+                        $("#wIcon").addClass("imgRender")
+                        var iconURL = "http://openweathermap.org/img/w/" + currentIcon + ".png"
+                        $('#wIcon').attr('src', iconURL)
+
                         cityTemp = $("<div>")
                         sectionCurrentweather.append(cityTemp)
                         cityTemp.text("Temp: " + currentTemp + " F")
@@ -84,6 +92,12 @@ function handleSubmit(event) {
                             var dayHumidity = $("<div>").text("Humidity: " + data.list[index].main.humidity + "%")
                             dayCard.append(dayHumidity)
 
+                            var dayIcon = data.list[index].weather[0].icon
+                            var dayURL= "http://openweathermap.org/img/w/" + dayIcon + ".png"
+                            $("#dIcon").attr('src', dayURL)
+
+                            dayCard.append(dayURL)
+                        
                             forecastDisplay.append(dayCard)
 
                             index += 8
